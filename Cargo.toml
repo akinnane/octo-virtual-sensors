@@ -1,0 +1,12 @@
+[package]
+name = "octo_virtual_sensors"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0"
+crc =  "3.2"
+rusb = "0.9"
+
+
+
