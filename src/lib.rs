@@ -50,21 +50,21 @@ impl Octo {
     ///
     /// Takes a slice of sensor with each values index being used as
     /// the virtual sensors output number
-    pub fn update_virtual_sensors(&mut self, sensor_values: &[u16]) -> Result<usize> {
+    pub fn update_virtual_sensors(&mut self, sensor_values: &[i16]) -> Result<usize> {
         self.update_buffer(sensor_values);
         self.send()
     }
 
     /// Update the sensors values in the existing buffer
-    fn update_buffer(&mut self, sensor_values: &[u16]) {
+    fn update_buffer(&mut self, sensor_values: &[i16]) {
         for index in 0..16 {
             let sensor_offset = HEADER + 2 * index;            
             if let Some(value) = sensor_values.get(index) {
-                let value = (100_u16 * value).to_be_bytes();
+                let value = (100_i16 * value).to_be_bytes();
                 self.buffer[sensor_offset] = value[0];
                 self.buffer[sensor_offset + 1] = value[1];
             } else {
-                let value = 32767_u16.to_be_bytes();
+                let value = i16::MAX.to_be_bytes();
                 self.buffer[sensor_offset] = value[0];
                 self.buffer[sensor_offset + 1] = value[1];
             }
